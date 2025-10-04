@@ -8,11 +8,12 @@ body {
 header {
   background:#111;
   color:#fff;
-  padding:20px 0;
+  padding:15px 20px; /* ajustado para mobile */
   position: fixed;  /* fixar no topo */
   top: 0;           /* posição no topo */
   width: 100%;      /* ocupar toda a largura */
   z-index: 999;     /* ficar acima de outros elementos */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3); /* sombra leve */
 }
 header h1 { 
   font-size:2em; 
@@ -202,29 +203,24 @@ footer {
   }
 }
 
-/* Responsivo aprimorado */
+/* Ajuste header e hero para mobile */
+.hero {
+  padding-top: calc(180px + 60px); /* soma padding original + altura aproximada do header */
+}
+
 @media (max-width:1024px){
-  .hero h2 { font-size:2.2em; }
-  .hero p { font-size:1.1em; }
-  .cards-servicos, .cards-pacotes { gap:20px; }
+  .hero { padding-top: calc(140px + 60px); } /* ajusta header menor em tablets */
 }
 
 @media (max-width:768px){
-  header { padding:15px 0; }
-  .hero { padding:140px 20px; } /* ajustado para header fixo */
-  .hero h2 { font-size:1.8em; }
-  .hero p { font-size:1em; }
-  .cards-servicos, .cards-pacotes { flex-direction:column; gap:15px; }
-  header nav ul { float:none; text-align:center; margin-top:10px; }
-  header nav ul li { display:block; margin:8px 0; }
-  .card, .card-pacote { width:90%; margin:0 auto; }
+  .hero { padding-top: calc(120px + 60px); } /* ajusta para celular */
+  .cards-servicos, .cards-pacotes { flex-direction:column; gap:20px; }
+  header nav ul { float:none; text-align:center; margin-top:15px;}
+  header nav ul li { display:block; margin:10px 0; }
 }
 
 @media (max-width:480px){
-  .hero h2 { font-size:1.5em; }
-  .hero p { font-size:0.95em; }
-  .btn-primary { padding:12px 25px; font-size:0.95em; }
-  .sobre, .servicos, .pacotes, .contato { padding:50px 15px; }
-  .card, .card-pacote { padding:20px; }
-  .card i { font-size:2.5em; }
+  .hero { padding-top: calc(100px + 60px); } /* celular menor */
+  header h1 { font-size:1.6em; margin-left:10px; }
+  header nav ul li a { padding:10px 15px; font-size:95%; }
 }
