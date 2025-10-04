@@ -12,12 +12,19 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const canvas = document.getElementById('ai-background');
 const ctx = canvas.getContext('2d');
 
-canvas.width = window.innerWidth;
-canvas.height = 200;
-
-const particles = [];
+let particles = [];
 const particleCount = 100;
 
+// Ajusta canvas para preencher todo o hero
+function resizeCanvas() {
+  const hero = document.querySelector('.hero');
+  canvas.width = hero.offsetWidth;
+  canvas.height = hero.offsetHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// Classe de partículas
 class Particle {
   constructor() {
     this.x = Math.random() * canvas.width;
@@ -38,19 +45,24 @@ class Particle {
     this.x += this.vx;
     this.y += this.vy;
 
-    if(this.x < 0 || this.x > canvas.width) this.vx *= -1;
-    if(this.y < 0 || this.y > canvas.height) this.vy *= -1;
+    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
   }
 }
 
 // Criar partículas
-for(let i=0; i<particleCount; i++){
-  particles.push(new Particle());
+function initParticles() {
+  particles = [];
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
 }
+initParticles();
 
+// Animar partículas
 function animate() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   // Desenha partículas
   particles.forEach(p => {
     p.update();
@@ -58,14 +70,14 @@ function animate() {
   });
 
   // Conecta partículas próximas
-  for(let i=0; i<particles.length; i++){
-    for(let j=i+1; j<particles.length; j++){
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
       let dx = particles[i].x - particles[j].x;
       let dy = particles[i].y - particles[j].y;
       let dist = Math.sqrt(dx*dx + dy*dy);
-      if(dist < 100){
+      if (dist < 100) {
         ctx.beginPath();
-        ctx.strokeStyle = `rgba(247,198,0,${1-dist/100})`;
+        ctx.strokeStyle = `rgba(247,198,0,${1 - dist/100})`;
         ctx.lineWidth = 1;
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
@@ -76,11 +88,10 @@ function animate() {
 
   requestAnimationFrame(animate);
 }
-
 animate();
 
-// Atualizar canvas ao redimensionar
+// Recria partículas quando redimensiona para manter proporção
 window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = 200;
+  resizeCanvas();
+  initParticles();
 });
