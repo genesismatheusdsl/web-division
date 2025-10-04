@@ -202,10 +202,29 @@ footer {
   }
 }
 
-/* Responsivo */
+/* Responsivo aprimorado */
+@media (max-width:1024px){
+  .hero h2 { font-size:2.2em; }
+  .hero p { font-size:1.1em; }
+  .cards-servicos, .cards-pacotes { gap:20px; }
+}
+
 @media (max-width:768px){
-  .hero { padding:180px 20px; } /* mantém ajuste para header fixo */
-  .cards-servicos, .cards-pacotes { flex-direction:column; gap:20px; }
-  header nav ul { float:none; text-align:center; margin-top:15px;}
-  header nav ul li { display:block; margin:10px 0; }
+  header { padding:15px 0; }
+  .hero { padding:140px 20px; } /* ajustado para header fixo */
+  .hero h2 { font-size:1.8em; }
+  .hero p { font-size:1em; }
+  .cards-servicos, .cards-pacotes { flex-direction:column; gap:15px; }
+  header nav ul { float:none; text-align:center; margin-top:10px; }
+  header nav ul li { display:block; margin:8px 0; }
+  .card, .card-pacote { width:90%; margin:0 auto; }
+}
+
+@media (max-width:480px){
+  .hero h2 { font-size:1.5em; }
+  .hero p { font-size:0.95em; }
+  .btn-primary { padding:12px 25px; font-size:0.95em; }
+  .sobre, .servicos, .pacotes, .contato { padding:50px 15px; }
+  .card, .card-pacote { padding:20px; }
+  .card i { font-size:2.5em; }
 }
