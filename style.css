@@ -52,7 +52,7 @@ header nav ul li a:hover {
 
 /* Spacer para compensar o header fixo */
 .hero-spacer {
-  height: 70px; /* altura aproximada do header */
+  height: 70px; /* altura do header desktop */
 }
 
 /* Hero */
@@ -61,7 +61,7 @@ header nav ul li a:hover {
   flex-direction:column;
   align-items:center; 
   justify-content:center; 
-  padding:20px; /* padding interno */
+  padding:20px; 
   background:url('https://images.unsplash.com/photo-1605902711622-cfb43c4430e5?auto=format&fit=crop&w=1470&q=80') center/cover no-repeat; 
   color:#333131; 
   text-align:center;
