@@ -181,8 +181,16 @@ header nav ul li a:hover {
 
 /* Contato */
 .contato {
-  padding: 100px 0 140px; /* Aumenta o espaço inferior */
+  padding: 100px 0 140px;
   text-align: center;
+}
+.contato h2 {
+  margin-bottom: 20px;
+}
+.contato p {
+  margin-bottom: 40px;
+  font-size: 1.1em;
+  line-height: 1.6;
 }
 .contato input,
 .contato textarea,
@@ -210,7 +218,7 @@ header nav ul li a:hover {
 footer {
   background: #111;
   color: #fff;
-  padding: 40px 0 20px; /* Aumenta espaço no topo */
+  padding: 40px 0 20px;
   text-align: center;
 }
 
