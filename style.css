@@ -26,6 +26,7 @@ header h1 {
   color:#fff;
   animation: animarTitulo 3s infinite alternate;
 }
+
 header nav ul { 
   list-style:none; 
   float:right; 
@@ -51,9 +52,22 @@ header nav ul li a:hover {
   box-shadow:0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Spacer dinâmico (criado via JS) */
+/* Menu hamburguer (mobile) */
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  color: #fff;
+  cursor: pointer;
+  z-index: 1001;
+  position: absolute;
+  right: 20px;
+  top: 22px;
+}
+
+/* Spacer dinâmico */
 .hero-spacer {
   width: 100%;
+  height: 80px;
 }
 
 /* Hero */
@@ -69,8 +83,6 @@ header nav ul li a:hover {
   color:#fff;
   min-height:100vh;
 }
-
-/* Hero Text */
 .hero-text { 
   z-index:1; 
   max-width:90%; 
@@ -198,16 +210,74 @@ footer {
 }
 
 /* Responsivo */
-@media (max-width:768px){
-  .hero h2 { font-size:2em; }
-  .hero p { font-size:1em; }
-  header nav ul { float:none; text-align:center; margin-top:15px;}
-  header nav ul li { display:block; margin:10px 0; }
-  .cards-servicos, .cards-pacotes { flex-direction:column; gap:20px; }
+@media (max-width: 768px){
+  header nav {
+    display: none;
+    width: 100%;
+    background-color: #111;
+    position: absolute;
+    top: 65px;
+    left: 0;
+    z-index: 1000;
+  }
+
+  header nav.active {
+    display: block;
+  }
+
+  header nav ul {
+    float: none;
+    text-align: center;
+    margin: 0;
+    padding: 10px 0;
+  }
+
+  header nav ul li {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .hero h2 {
+    font-size: 2em;
+  }
+
+  .hero p {
+    font-size: 1em;
+  }
+
+  .cards-servicos, .cards-pacotes {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
-@media (max-width:480px){
-  .hero h2 { font-size:1.5em; }
-  .hero p { font-size:0.95em; }
-  header h1 { font-size:1.6em; margin-left:10px; }
-  header nav ul li a { padding:10px 15px; font-size:95%; }
+
+@media (max-width: 480px){
+  .hero h2 {
+    font-size: 1.5em;
+  }
+
+  .hero p {
+    font-size: 0.95em;
+  }
+
+  header h1 {
+    font-size: 1.6em;
+    margin-left: 10px;
+  }
+
+  header nav ul li a {
+    padding: 10px 15px;
+    font-size: 95%;
+  }
 }
