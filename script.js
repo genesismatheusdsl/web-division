@@ -5,7 +5,21 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     document.querySelector(this.getAttribute("href")).scrollIntoView({
       behavior: "smooth"
     });
+
+    // Fecha o menu após clicar em um item (mobile)
+    const nav = document.getElementById("nav");
+    if (nav.classList.contains("active")) {
+      nav.classList.remove("active");
+    }
   });
+});
+
+// Toggle do menu hamburguer
+const toggle = document.getElementById("menu-toggle");
+const nav = document.getElementById("nav");
+
+toggle.addEventListener("click", () => {
+  nav.classList.toggle("active");
 });
 
 // Fundo animado de partículas (IA)
