@@ -1,0 +1,117 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body, html {
+  height: 100%;
+  background: linear-gradient(135deg, #111, #1a1a1a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.login-card {
+  background: #1e1e1e;
+  border-radius: 15px;
+  padding: 40px 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  text-align: center;
+  color: #fff;
+}
+
+.login-card h2 {
+  margin-bottom: 10px;
+  color: #ff4c60;
+}
+
+.login-card p {
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-group i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ff4c60;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border-radius: 8px;
+  border: none;
+  background: #2b2b2b;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.input-group input::placeholder {
+  color: #999;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 12px;
+  background: #ff4c60;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-login:hover {
+  background: #e03d55;
+}
+
+.login-footer {
+  margin-top: 15px;
+}
+
+.login-footer a {
+  color: #ff4c60;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: 0.3s;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Botão Voltar */
+.btn-back {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #ff4c60;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-back i {
+  margin-right: 5px;
+}
+
+.btn-back:hover {
+  color: #e03d55;
+}

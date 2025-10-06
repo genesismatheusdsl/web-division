@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área do Cliente - Web Division</title>
+  <link rel="stylesheet" href="cliente.css">
+  <script defer src="cliente.js"></script>
+  <link href="https://unpkg.com/lucide-icons/dist/lucide.css" rel="stylesheet">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <h2>Web<span>Division</span></h2>
+    </div>
+    <ul class="menu">
+      <li><i data-lucide="inbox"></i> Chamados</li>
+      <li><i data-lucide="layers"></i> Projetos</li>
+      <li><i data-lucide="credit-card"></i> Pagamentos</li>
+      <li><i data-lucide="file-text"></i> Contratos</li>
+      <li class="logout"><i data-lucide="log-out"></i> Sair</li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <h1>Bem-vindo, <span id="nomeCliente">Cliente</span></h1>
+      <div class="user-avatar">
+        <img src="https://i.ibb.co/8b6xC1r/avatar.png" alt="Avatar do Cliente">
+      </div>
+    </header>
+
+    <section class="cards">
+      <div class="card">
+        <h3>Chamados Abertos</h3>
+        <p id="chamadosCount">3</p>
+      </div>
+      <div class="card">
+        <h3>Projetos em Andamento</h3>
+        <p id="projetosCount">2</p>
+      </div>
+      <div class="card">
+        <h3>Pagamentos</h3>
+        <p id="pagamentosCount">5</p>
+      </div>
+      <div class="card">
+        <h3>Contratos Ativos</h3>
+        <p id="contratosCount">4</p>
+      </div>
+    </section>
+
+    <section class="tabela">
+      <h2>Status de Chamados</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nº</th>
+            <th>Descrição</th>
+            <th>Status</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaChamados">
+          <tr>
+            <td>#1234</td>
+            <td>Erro no login</td>
+            <td><span class="status aberto">Aberto</span></td>
+            <td>06/10/2025</td>
+          </tr>
+          <tr>
+            <td>#1235</td>
+            <td>Atualização do site</td>
+            <td><span class="status andamento">Em andamento</span></td>
+            <td>05/10/2025</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    // Configuração Supabase
+    const supabaseUrl = 'https://znicegmkzlzdjfwhkpxi.supabase.co';
+    const supabaseKey = 'COLE_AQUI_SUA_ANON_KEY';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      // Pega o usuário logado
+      const { data: { user }, error } = await supabase.auth.getUser();
+      
+      if(error || !user) {
+        // Redireciona para login se não tiver usuário logado
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Atualiza os dados do painel
+      document.getElementById("nomeCliente").textContent = user.email;
+
+      // Aqui você pode buscar dados específicos do usuário no Supabase
+      // Exemplo: contadores de chamados, projetos, pagamentos, contratos
+      // Vamos simular por enquanto
+      const clienteData = {
+        chamados: 3,
+        projetos: 2,
+        pagamentos: 5,
+        contratos: 4
+      };
+
+      document.getElementById("chamadosCount").textContent = clienteData.chamados;
+      document.getElementById("projetosCount").textContent = clienteData.projetos;
+      document.getElementById("pagamentosCount").textContent = clienteData.pagamentos;
+      document.getElementById("contratosCount").textContent = clienteData.contratos;
+    });
+  </script>
+</body>
+</html>

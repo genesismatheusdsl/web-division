@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área do Cliente - Web Division</title>
+  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+      <h2>Área do Cliente</h2>
+      <p>Faça login para acessar seu painel e acompanhar seus projetos</p>
+      
+      <form id="login-form">
+        <div class="input-group">
+          <i class="fa-solid fa-user"></i>
+          <input type="email" id="email" placeholder="Email" required>
+        </div>
+
+        <div class="input-group">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="senha" placeholder="Senha" required>
+        </div>
+
+        <button type="submit" class="btn-login">Entrar</button>
+      </form>
+
+      <p id="login-error" style="color:#ff4c60; margin-top:10px;"></p>
+
+      <div class="login-footer">
+        <a href="#" id="forgot-password">Esqueceu a senha?</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <script>
+    // Configuração Supabase
+    const supabaseUrl = 'https://znicegmkzlzdjfwhkpxi.supabase.co';
+    const supabaseKey = 'COLE_AQUI_SUA_ANON_KEY';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+
+      // Login com Supabase
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: senha
+      });
+
+      if(error){
+        document.getElementById("login-error").textContent = "Email ou senha incorretos!";
+      } else {
+        // Salva sessão localmente e redireciona para o painel
+        localStorage.setItem("userSession", JSON.stringify(data.user));
+        window.location.href = "cliente.html";
+      }
+    });
+  </script>
+</body>
+</html>

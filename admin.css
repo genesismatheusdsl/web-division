@@ -1,0 +1,132 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f4f4f9;
+  color: #333;
+  padding: 20px;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e1e1e;
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 1.8em;
+}
+
+header .btn-logout {
+  background-color: #ff4c60;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+header .btn-logout:hover {
+  background-color: #e04356;
+}
+
+/* Seção principal */
+main {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Filtros e busca */
+.btn-filtro {
+  background-color: #ff4c60;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-filtro:hover {
+  background-color: #e04356;
+}
+
+#busca-chamado {
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-left: 15px;
+  width: 250px;
+}
+
+/* Tabela de chamados */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #ff4c60;
+  color: #fff;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Status */
+.status-Aberto {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.status-Emandamento, .status-Em {
+  color: #3498db;
+  font-weight: bold;
+}
+
+.status-Resolvido {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  #busca-chamado {
+    width: 100%;
+    margin-top: 10px;
+    margin-left: 0;
+  }
+
+  table, th, td {
+    font-size: 12px;
+  }
+}
