@@ -29,11 +29,11 @@ function showSuccess(text, debug = "") {
 // === VERIFICAÇÃO DE SESSÃO ATIVA ===
 (async () => {
   try {
-    const { data, error } = await supabase.auth.getSession();
-    console.log("Sessão atual (getSession):", { data, error });
+    const { data: { session }, error } = await supabase.auth.getSession();
+    console.log("Sessão atual (getSession):", { session, error });
     if (error) showError("Erro ao verificar sessão", JSON.stringify(error));
-    else if (data?.session) {
-      showSuccess("Sessão ativa encontrada, redirecionando...", JSON.stringify(data));
+    else if (session) {
+      showSuccess("Sessão ativa encontrada, redirecionando...", JSON.stringify(session));
       setTimeout(() => window.location.href = "cliente.html", 500);
     }
   } catch (err) {
@@ -67,9 +67,15 @@ if (form) {
         return;
       }
 
-      showSuccess("Login realizado com sucesso!", JSON.stringify(data));
-      localStorage.setItem("sb_user", JSON.stringify({ id: data.user.id, email: data.user.email }));
+      // Persistindo a sessão manualmente
+      if (data.session) {
+        await supabase.auth.setSession(data.session);
+        localStorage.setItem("sb_user", JSON.stringify({ id: data.user.id, email: data.user.email }));
+        showSuccess("Login realizado com sucesso!", JSON.stringify(data));
+        console.log("Sessão persistida:", data.session);
+      }
 
+      // Redireciona só depois da sessão estar ativa
       setTimeout(() => window.location.href = "cliente.html", 600);
 
     } catch (err) {
