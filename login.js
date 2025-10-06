@@ -1,15 +1,19 @@
-// login.js - integração Supabase com debug visual completo
+// login.js - Integração Supabase com debug visual completo
 
+// === CONFIGURAÇÃO SUPABASE ===
 const SUPABASE_URL = 'https://znicegmkzlzdjfwhkpxi.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpuaWNlZ21remx6ZGpmd2hrcHhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk3NzU2NjksImV4cCI6MjA3NTM1MTY2OX0.2s0b3lWSZiem6apTdA8ytHbXMGVt_dIjg27zDnqsHDc';
 
+// Criando client
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// === ELEMENTOS DO DOM ===
 const form = document.getElementById("login-form");
 const errorMsg = document.getElementById("login-error");
 const successMsg = document.getElementById("login-success");
 const forgotLink = document.getElementById("forgot-password");
 
+// === FUNÇÕES DE DEBUG VISUAL ===
 function showError(text, debug = "") {
   if (errorMsg) errorMsg.textContent = text + (debug ? " | Debug: " + debug : "");
   if (successMsg) successMsg.textContent = "";
@@ -22,7 +26,7 @@ function showSuccess(text, debug = "") {
   console.log("LOGIN - " + text, debug);
 }
 
-// Verifica sessão ativa
+// === VERIFICAÇÃO DE SESSÃO ATIVA ===
 (async () => {
   try {
     const { data, error } = await supabase.auth.getSession();
@@ -38,7 +42,7 @@ function showSuccess(text, debug = "") {
   }
 })();
 
-// Login
+// === LOGIN ===
 if (form) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -58,7 +62,6 @@ if (form) {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
       console.log("Resposta signInWithPassword:", { data, error });
 
-      // Se não tiver usuário ou erro
       if (error || !data?.user) {
         showError("Login falhou!", JSON.stringify(error || data));
         return;
@@ -78,7 +81,7 @@ if (form) {
   console.warn("form #login-form não encontrado no DOM.");
 }
 
-// Recuperação de senha
+// === RECUPERAÇÃO DE SENHA ===
 if (forgotLink) {
   forgotLink.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -106,7 +109,7 @@ if (forgotLink) {
   console.warn("link #forgot-password não encontrado no DOM.");
 }
 
-// DEBUG helpers
+// === DEBUG HELPERS ===
 window.__supabase_debug = {
   supabase,
   printSession: async () => {
