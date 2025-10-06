@@ -53,6 +53,7 @@
     // ✅ Verifica se já existe sessão ativa
     (async () => {
       const { data } = await supabase.auth.getSession();
+      console.log("Sessão atual:", data);
       if (data.session) {
         window.location.href = "cliente.html";
       }
@@ -67,6 +68,8 @@
       const email = document.getElementById("email").value.trim();
       const senha = document.getElementById("senha").value.trim();
 
+      console.log("Tentando login com:", email);
+
       if (!email || !senha) {
         errorMsg.textContent = "Por favor, preencha todos os campos.";
         return;
@@ -76,6 +79,9 @@
         email: email,
         password: senha
       });
+
+      console.log("Login data:", data);
+      console.log("Login error:", error);
 
       if (error) {
         errorMsg.textContent = "❌ " + (error.message || "Email ou senha incorretos!");
@@ -94,6 +100,8 @@
       const email = prompt("Digite seu e-mail cadastrado para redefinir a senha:");
 
       if (email) {
+        console.log("Solicitando recuperação de senha para:", email);
+
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: window.location.origin + "/reset.html"
         });
