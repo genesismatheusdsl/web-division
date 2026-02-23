@@ -1,6 +1,6 @@
 const supabase = window.supabase.createClient(
-  "COLE_SUA_URL",
-  "COLE_SUA_ANON_KEY"
+  "SUA_URL_AQUI",
+  "SUA_ANON_KEY_AQUI"
 );
 
 const tabela = document.getElementById("tabelaChamados");
@@ -13,9 +13,11 @@ async function carregarChamados() {
     .order("criado_em", { ascending: false });
 
   if (error) {
-    console.log(error);
+    console.log("Erro:", error);
     return;
   }
+
+  console.log("Chamados encontrados:", data);
 
   tabela.innerHTML = "";
 
@@ -35,8 +37,10 @@ async function carregarChamados() {
     tr.innerHTML = `
       <td>${chamado.id.substring(0,8)}</td>
       <td>${chamado.titulo}</td>
-      <td class="status-${chamado.status.replace(" ","")}">${chamado.status}</td>
-      <td>${chamado.prioridade}</td>
+      <td class="status-${chamado.status.replace(" ","")}">
+        ${chamado.status}
+      </td>
+      <td>${chamado.prioridade || "-"}</td>
       <td>${new Date(chamado.criado_em).toLocaleDateString()}</td>
     `;
 
