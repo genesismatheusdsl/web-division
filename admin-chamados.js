@@ -2,14 +2,8 @@
 // WEB DIVISION - ADMIN CHAMADOS
 // ================================
 
-// 🔥 CONFIGURAÇÃO SUPABASE
-const SUPABASE_URL = "https://hixywpfmakojtiwhufrd.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+// ⚠️ NÃO configurar Supabase aqui
+// Ele já vem do supabase.js via window.supabaseClient
 
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -20,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 🔐 Verifica sessão
   const { data: { session }, error } =
-    await supabaseClient.auth.getSession();
+    await window.supabaseClient.auth.getSession();
 
   console.log("Sessão:", session);
 
@@ -34,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 🔎 Verifica se é admin
   const { data: roleData, error: roleError } =
-    await supabaseClient
+    await window.supabaseClient
       .from("usuarios")
       .select("role")
       .eq("id", user.id)
@@ -56,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const logoutBtn = document.getElementById("logout");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async () => {
-      await supabaseClient.auth.signOut();
+      await window.supabaseClient.auth.signOut();
       window.location.href = "index.html";
     });
   }
@@ -69,14 +63,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function carregarChamados(tabela) {
 
-  const { data, error } = await supabaseClient
+  const { data, error } = await window.supabaseClient
     .from("chamados")
     .select("*")
-    .order("created_em", { ascending: false });
+    .order("criado_em", { ascending: false }); // ✅ nome correto da coluna
 
   console.log("Chamados:", data);
 
   if (error) {
+    console.error(error);
     tabela.innerHTML = `<tr><td colspan="5">Erro ao carregar</td></tr>`;
     return;
   }
@@ -95,6 +90,7 @@ async function carregarChamados(tabela) {
 
   data.forEach(chamado => {
 
+    // ⚠️ Só conta status se existir
     if (chamado.status === "aberto") abertos++;
     if (chamado.status === "em andamento") andamento++;
     if (chamado.status === "resolvido") resolvidos++;
@@ -106,15 +102,19 @@ async function carregarChamados(tabela) {
       <td>${chamado.titulo || chamado.descricao || "-"}</td>
       <td>${chamado.status || "-"}</td>
       <td>${chamado.prioridade || "-"}</td>
-      <td>${chamado.created_at ? new Date(chamado.created_em).toLocaleDateString() : "-"}</td>
+      <td>${chamado.criado_em ? new Date(chamado.criado_em).toLocaleDateString() : "-"}</td>
     `;
 
     tabela.appendChild(tr);
   });
 
-  document.getElementById("totalChamados").textContent = total;
-  document.getElementById("abertos").textContent = abertos;
-  document.getElementById("andamento").textContent = andamento;
-  document.getElementById("resolvidos").textContent = resolvidos;
-}
+  const totalEl = document.getElementById("totalChamados");
+  const abertosEl = document.getElementById("abertos");
+  const andamentoEl = document.getElementById("andamento");
+  const resolvidosEl = document.getElementById("resolvidos");
 
+  if (totalEl) totalEl.textContent = total;
+  if (abertosEl) abertosEl.textContent = abertos;
+  if (andamentoEl) andamentoEl.textContent = andamento;
+  if (resolvidosEl) resolvidosEl.textContent = resolvidos;
+}
