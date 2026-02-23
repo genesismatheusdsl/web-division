@@ -430,3 +430,96 @@ footer {
   border-radius: 10px;
 }
 
+/* ================= IMOBFLOW SECTION PREMIUM ================= */
+
+#imobflow {
+  background: linear-gradient(180deg,#ffffff,#f8f9fc);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fundo decorativo sutil */
+
+#imobflow::before {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(247,198,0,0.08), transparent 70%);
+  top: -200px;
+  right: -200px;
+  z-index: 0;
+}
+
+#imobflow .container {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+}
+
+#imobflow h2 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #111;
+  position: relative;
+  display: inline-block;
+}
+
+#imobflow h2::after {
+  content: "";
+  width: 60%;
+  height: 4px;
+  background: linear-gradient(90deg,#f7c600,#ffdd33);
+  position: absolute;
+  bottom: -10px;
+  left: 20%;
+  border-radius: 5px;
+}
+
+#imobflow p {
+  font-size: 1.1em;
+  line-height: 1.8;
+  color: #555;
+  margin-top: 20px;
+}
+
+/* Lista com check estilizado */
+
+#imobflow p br {
+  line-height: 2.2;
+}
+
+#imobflow p {
+  margin-bottom: 35px;
+}
+
+#imobflow p strong {
+  color: #111;
+}
+
+/* Botão centralizado premium */
+
+#imobflow .btn-primary {
+  margin-top: 20px;
+  font-size: 1.05em;
+  padding: 18px 40px;
+  border-radius: 10px;
+}
+
+/* Efeito de entrada suave */
+
+#imobflow {
+  animation: fadeUp 1s ease forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
