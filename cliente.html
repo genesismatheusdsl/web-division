@@ -35,7 +35,7 @@
     </div>
 
     <div class="header-actions">
-      <button class="btn-primary">+ Novo Chamado</button>
+      <button class="btn-primary" id="btnNovoChamado">+ Novo Chamado</button>
       <div class="user-avatar">
         <img src="https://i.ibb.co/8b6xC1r/avatar.png">
       </div>
@@ -85,6 +85,22 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <script src="cliente.js"></script>
+<div id="modalChamado" class="modal">
+  <div class="modal-content">
+    <h2>Novo Chamado</h2>
 
+    <input type="text" id="tituloChamado" placeholder="Título do chamado">
+
+    <textarea id="descricaoChamado" placeholder="Descreva o problema"></textarea>
+
+    <select id="prioridadeChamado">
+      <option value="normal">Normal</option>
+      <option value="alta">Alta</option>
+    </select>
+
+    <button id="salvarChamado" class="btn-primary">Salvar</button>
+  </div>
+</div>
 </body>
 </html>
+
