@@ -72,7 +72,7 @@ async function carregarChamados(tabela) {
   const { data, error } = await supabaseClient
     .from("chamados")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("created_em", { ascending: false });
 
   console.log("Chamados:", data);
 
@@ -106,7 +106,7 @@ async function carregarChamados(tabela) {
       <td>${chamado.titulo || chamado.descricao || "-"}</td>
       <td>${chamado.status || "-"}</td>
       <td>${chamado.prioridade || "-"}</td>
-      <td>${chamado.created_at ? new Date(chamado.created_at).toLocaleDateString() : "-"}</td>
+      <td>${chamado.created_at ? new Date(chamado.created_em).toLocaleDateString() : "-"}</td>
     `;
 
     tabela.appendChild(tr);
@@ -117,3 +117,4 @@ async function carregarChamados(tabela) {
   document.getElementById("andamento").textContent = andamento;
   document.getElementById("resolvidos").textContent = resolvidos;
 }
+
