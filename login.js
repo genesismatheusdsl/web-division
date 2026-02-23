@@ -2,13 +2,9 @@
 // WEB DIVISION - LOGIN SUPABASE
 // ================================
 
-const SUPABASE_URL = "https://hixywpfmakojtiwhufrd.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+// ⚠️ NÃO criar outro client aqui
+// Ele já vem do supabase.js
+const supabaseClient = window.supabaseClient;
 
 const form = document.getElementById("login-form");
 const errorMsg = document.getElementById("login-error");
