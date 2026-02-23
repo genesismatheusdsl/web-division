@@ -523,3 +523,75 @@ footer {
   }
 }
 
+/* ================== PLANOS - AJUSTES VISUAIS ================== */
+
+/* Espaçamento da seção de contato */
+
+#contato p {
+  margin-bottom: 30px;
+  font-size: 1.05em;
+}
+
+#contato .btn-primary {
+  margin-top: 25px;
+  padding: 18px 45px;
+  font-size: 1.05em;
+}
+
+
+/* ================== CARDS DE PLANOS ================== */
+
+.plan-card {
+  padding: 35px 30px;
+  text-align: left;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Remove bolinhas brancas */
+
+.plan-card ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+/* Lista personalizada */
+
+.plan-card ul li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 12px;
+  line-height: 1.6;
+  font-size: 0.95em;
+}
+
+/* Ícone dourado no lugar da bolinha */
+
+.plan-card ul li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #f7c600;
+  font-weight: bold;
+}
+
+/* Título dos planos */
+
+.plan-card h3 {
+  margin-bottom: 15px;
+  font-size: 1.3em;
+}
+
+/* Efeito hover mais premium */
+
+.plan-card {
+  transition: all 0.3s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
