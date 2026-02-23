@@ -1,22 +1,15 @@
-// ===== EVITA DECLARAÇÃO DUPLICADA =====
-if (!window._webdivisionSupabase) {
-
-  window._webdivisionSupabase = window.supabase.createClient(
-    "https://hixywpfmakojtiwhufrd.supabase.co",
-    "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk"
-  );
-
-}
-
-const supabase = window._webdivisionSupabase;
-
 document.addEventListener("DOMContentLoaded", async () => {
 
   if (window.lucide) {
     lucide.createIcons();
   }
 
-  const { data, error } = await supabase.auth.getUser();
+  const client = window.supabase.createClient(
+    "https://hixywpfmakojtiwhufrd.supabase.co",
+    "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk"
+  );
+
+  const { data, error } = await client.auth.getUser();
 
   if (error || !data.user) {
     window.location.href = "login.html";
@@ -28,13 +21,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("nomeCliente").textContent =
     user.email || "Cliente";
 
-  // ===== LOGOUT =====
   document.querySelector(".logout").addEventListener("click", async () => {
-    await supabase.auth.signOut();
+    await client.auth.signOut();
     window.location.href = "login.html";
   });
 
-  // ===== MODAL =====
   const modal = document.getElementById("modalChamado");
   const btnNovo = document.getElementById("btnNovoChamado");
 
@@ -42,7 +33,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     modal.style.display = "flex";
   });
 
-  // ===== SALVAR CHAMADO =====
   document.getElementById("salvarChamado").addEventListener("click", async () => {
 
     const titulo = document.getElementById("tituloChamado").value;
@@ -54,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    const { error } = await supabase
+    const { error } = await client
       .from("chamados")
       .insert([
         {
@@ -75,10 +65,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     carregarChamados(user.id);
   });
 
-  // ===== CARREGAR CHAMADOS =====
   async function carregarChamados(clienteId) {
 
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from("chamados")
       .select("*")
       .eq("cliente_id", clienteId)
