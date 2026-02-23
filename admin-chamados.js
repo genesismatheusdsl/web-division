@@ -1,7 +1,7 @@
-// ===== CRIAR CLIENT SUPABASE (nome diferente para evitar conflito) =====
+// ===== CRIAR CLIENT SUPABASE =====
 const supabaseClient = window.supabase.createClient(
-  "SUA_URL_AQUI",
-  "SUA_ANON_KEY_AQUI"
+  "https://webdivision23-boop.supabase.co",
+  "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk"
 );
 
 const tabela = document.getElementById("tabelaChamados");
@@ -9,10 +9,7 @@ const tabela = document.getElementById("tabelaChamados");
 // ===== INICIAR SISTEMA =====
 async function iniciar() {
 
-  // 1️⃣ Verifica se está logado
   const { data: userData, error } = await supabaseClient.auth.getUser();
-
-  console.log("Usuário logado:", userData);
 
   if (error || !userData || !userData.user) {
     window.location.href = "login.html";
@@ -21,14 +18,11 @@ async function iniciar() {
 
   const user = userData.user;
 
-  // 2️⃣ Verifica se é admin
   const { data: roleData, error: roleError } = await supabaseClient
     .from("usuarios")
     .select("role")
     .eq("id", user.id)
     .single();
-
-  console.log("Role encontrada:", roleData);
 
   if (roleError || !roleData || roleData.role !== "admin") {
     alert("Acesso restrito ao administrador.");
@@ -36,7 +30,6 @@ async function iniciar() {
     return;
   }
 
-  // 3️⃣ Se for admin, carrega chamados
   carregarChamados();
 }
 
@@ -46,10 +39,7 @@ async function carregarChamados() {
   const { data, error } = await supabaseClient
     .from("chamados")
     .select("*")
-    .order("created_at", { ascending: false }); // 🔥 AJUSTADO
-
-  console.log("Erro chamados:", error);
-  console.log("Dados chamados:", data);
+    .order("created_at", { ascending: false });
 
   if (error) {
     console.log("Erro ao buscar chamados:", error);
@@ -73,10 +63,10 @@ async function carregarChamados() {
 
     tr.innerHTML = `
       <td>${chamado.id.substring(0,8)}</td>
-      <td>${chamado.descricao}</td> <!-- 🔥 AJUSTADO -->
+      <td>${chamado.descricao}</td>
       <td>${chamado.status}</td>
       <td>-</td>
-      <td>${new Date(chamado.created_at).toLocaleDateString()}</td> <!-- 🔥 AJUSTADO -->
+      <td>${new Date(chamado.created_at).toLocaleDateString()}</td>
     `;
 
     tabela.appendChild(tr);
