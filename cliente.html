@@ -3,104 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Área do Cliente - WebDivision</title>
-  <link rel="stylesheet" href="cliente.css">
-
-  <!-- Ícones -->
-  <link href="https://unpkg.com/lucide-icons/dist/lucide.css" rel="stylesheet">
+  <title>WebDivision Admin</title>
+  <link rel="stylesheet" href="admin.css">
 </head>
+
 <body>
 
-<div class="sidebar">
-  <div class="logo">
-    <h2>Web<span>Division</span></h2>
+  <div class="sidebar">
+    <h2>WebDivision</h2>
+    <a href="#">Dashboard</a>
+    <a href="#" class="active">Chamados</a>
+    <a href="#">Clientes</a>
+    <a href="#">Financeiro</a>
   </div>
 
-  <ul class="menu">
-    <li class="active"><i data-lucide="layout-dashboard"></i> Dashboard</li>
-    <li><i data-lucide="layers"></i> Projetos</li>
-    <li><i data-lucide="inbox"></i> Chamados</li>
-    <li><i data-lucide="credit-card"></i> Financeiro</li>
-    <li><i data-lucide="file-text"></i> Documentos</li>
-    <li class="logout"><i data-lucide="log-out"></i> Sair</li>
-  </ul>
-</div>
+  <div class="main">
 
-<div class="main-content">
+    <header>
+      <h1>Painel de Chamados</h1>
+      <button id="logout">Sair</button>
+    </header>
 
-  <header>
-    <div>
-      <h1>Bem-vindo, <span id="nomeCliente">Cliente</span></h1>
-      <p class="sub-info">Portal WebDivision</p>
-    </div>
+    <div class="cards">
+      <div class="card">
+        <h3 id="totalChamados">0</h3>
+        <p>Total Chamados</p>
+      </div>
 
-    <div class="header-actions">
-      <button class="btn-primary" id="btnNovoChamado">+ Novo Chamado</button>
-      <div class="user-avatar">
-        <img src="https://i.ibb.co/8b6xC1r/avatar.png">
+      <div class="card aberto">
+        <h3 id="abertos">0</h3>
+        <p>Abertos</p>
+      </div>
+
+      <div class="card andamento">
+        <h3 id="andamento">0</h3>
+        <p>Em Andamento</p>
+      </div>
+
+      <div class="card resolvido">
+        <h3 id="resolvidos">0</h3>
+        <p>Resolvidos</p>
       </div>
     </div>
-  </header>
 
-  <section class="cards">
-    <div class="card">
-      <h3>Chamados Abertos</h3>
-      <p id="chamadosCount">0</p>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Status</th>
+            <th>Prioridade</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaChamados"></tbody>
+      </table>
     </div>
-    <div class="card">
-      <h3>Projetos Ativos</h3>
-      <p id="projetosCount">0</p>
-    </div>
-    <div class="card">
-      <h3>Faturas Pendentes</h3>
-      <p id="pagamentosCount">0</p>
-    </div>
-    <div class="card">
-      <h3>Contratos</h3>
-      <p id="contratosCount">0</p>
-    </div>
-  </section>
 
-  <section class="tabela">
-    <h2>Últimos Chamados</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Descrição</th>
-          <th>Status</th>
-          <th>Data</th>
-        </tr>
-      </thead>
-      <tbody id="tabelaChamados"></tbody>
-    </table>
-  </section>
-
-</div>
-
-<!-- Supabase CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<!-- Script oficial do Lucide (necessário para os ícones funcionarem) -->
-<script src="https://unpkg.com/lucide@latest"></script>
-
-<script src="cliente.js"></script>
-<div id="modalChamado" class="modal">
-  <div class="modal-content">
-    <h2>Novo Chamado</h2>
-
-    <input type="text" id="tituloChamado" placeholder="Título do chamado">
-
-    <textarea id="descricaoChamado" placeholder="Descreva o problema"></textarea>
-
-    <select id="prioridadeChamado">
-      <option value="normal">Normal</option>
-      <option value="alta">Alta</option>
-    </select>
-
-    <button id="salvarChamado" class="btn-primary">Salvar</button>
   </div>
-</div>
+
+  <!-- Ordem correta -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="admin-chamados.js"></script>
+
 </body>
 </html>
-
