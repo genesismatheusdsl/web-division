@@ -1,16 +1,20 @@
-const supabase = window.supabase.createClient(
+// ===== CRIAR CLIENT SUPABASE (nome diferente para evitar conflito) =====
+const supabaseClient = window.supabase.createClient(
   "SUA_URL_AQUI",
   "SUA_ANON_KEY_AQUI"
 );
 
 const tabela = document.getElementById("tabelaChamados");
 
+// ===== INICIAR SISTEMA =====
 async function iniciar() {
 
-  // 1️⃣ Verifica login
-  const { data: userData, error } = await supabase.auth.getUser();
+  // 1️⃣ Verifica se está logado
+  const { data: userData, error } = await supabaseClient.auth.getUser();
 
-  if (error || !userData.user) {
+  console.log("Usuário logado:", userData);
+
+  if (error || !userData || !userData.user) {
     window.location.href = "login.html";
     return;
   }
@@ -18,11 +22,13 @@ async function iniciar() {
   const user = userData.user;
 
   // 2️⃣ Verifica se é admin
-  const { data: roleData, error: roleError } = await supabase
+  const { data: roleData, error: roleError } = await supabaseClient
     .from("usuarios")
     .select("role")
     .eq("id", user.id)
     .single();
+
+  console.log("Role encontrada:", roleData);
 
   if (roleError || !roleData || roleData.role !== "admin") {
     alert("Acesso restrito ao administrador.");
@@ -30,19 +36,23 @@ async function iniciar() {
     return;
   }
 
-  // 3️⃣ Se passou aqui, é admin
+  // 3️⃣ Se for admin, carrega chamados
   carregarChamados();
 }
 
+// ===== CARREGAR CHAMADOS =====
 async function carregarChamados() {
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("chamados")
     .select("*")
-    .order("criado_em", { ascending: false });
+    .order("created_at", { ascending: false }); // 🔥 AJUSTADO
+
+  console.log("Erro chamados:", error);
+  console.log("Dados chamados:", data);
 
   if (error) {
-    console.log(error);
+    console.log("Erro ao buscar chamados:", error);
     return;
   }
 
@@ -63,10 +73,10 @@ async function carregarChamados() {
 
     tr.innerHTML = `
       <td>${chamado.id.substring(0,8)}</td>
-      <td>${chamado.titulo}</td>
+      <td>${chamado.descricao}</td> <!-- 🔥 AJUSTADO -->
       <td>${chamado.status}</td>
-      <td>${chamado.prioridade || "-"}</td>
-      <td>${new Date(chamado.criado_em).toLocaleDateString()}</td>
+      <td>-</td>
+      <td>${new Date(chamado.created_at).toLocaleDateString()}</td> <!-- 🔥 AJUSTADO -->
     `;
 
     tabela.appendChild(tr);
