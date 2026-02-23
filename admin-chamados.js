@@ -5,24 +5,33 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tabela = document.getElementById("tabelaChamados");
   if (!tabela) return;
 
-  // 🔐 Verifica sessão
-  const { data: { session } } = await supabaseClient.auth.getSession();
+  // 🔐 Aguarda sessão corretamente
+  const {
+    data: { session },
+    error
+  } = await window.supabaseClient.auth.getSession();
+
+  console.log("Sessão:", session);
 
   if (!session) {
-    window.location.href = "cliente.html";
+    console.log("Sem sessão, redirecionando...");
+    window.location.href = "index.html";
     return;
   }
 
   const user = session.user;
 
   // 🔎 Verifica se é admin
-  const { data: roleData } = await supabaseClient
+  const { data: roleData, error: roleError } = await window.supabaseClient
     .from("usuarios")
     .select("role")
     .eq("id", user.id)
-    .maybeSingle();
+    .single();
 
-  if (!roleData || roleData.role !== "admin") {
+  console.log("Role:", roleData);
+
+  if (roleError || !roleData || roleData.role !== "admin") {
+    console.log("Não é admin, redirecionando...");
     window.location.href = "cliente.html";
     return;
   }
@@ -33,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 🚪 Logout
   document.getElementById("logout").addEventListener("click", async () => {
-    await supabaseClient.auth.signOut();
+    await window.supabaseClient.auth.signOut();
     window.location.href = "index.html";
   });
 
@@ -42,17 +51,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function carregarChamados(tabela) {
 
-  const { data, error } = await supabaseClient
+  const { data, error } = await window.supabaseClient
     .from("chamados")
     .select("*")
     .order("created_at", { ascending: false });
 
-  if (error || !data) {
+  console.log("Chamados:", data);
+
+  if (error) {
     tabela.innerHTML = `<tr><td colspan="5">Erro ao carregar</td></tr>`;
     return;
   }
 
-  if (data.length === 0) {
+  if (!data || data.length === 0) {
     tabela.innerHTML = `<tr><td colspan="5">Nenhum chamado encontrado</td></tr>`;
     return;
   }
@@ -74,9 +85,9 @@ async function carregarChamados(tabela) {
 
     tr.innerHTML = `
       <td>${chamado.id?.substring(0,8) || "-"}</td>
-      <td>${chamado.descricao || chamado.titulo || "-"}</td>
+      <td>${chamado.titulo || chamado.descricao || "-"}</td>
       <td>${chamado.status || "-"}</td>
-      <td>-</td>
+      <td>${chamado.prioridade || "-"}</td>
       <td>${chamado.created_at ? new Date(chamado.created_at).toLocaleDateString() : "-"}</td>
     `;
 
