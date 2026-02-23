@@ -1,58 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Chamados</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebDivision Admin</title>
 
-  <link rel="stylesheet" href="admin.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="admin.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
+<div class="sidebar">
+  <h2>WebDivision</h2>
+  <a href="#">Dashboard</a>
+  <a href="#" class="active">Chamados</a>
+  <a href="#">Clientes</a>
+  <a href="#">Financeiro</a>
+</div>
+
+<div class="main">
+
 <header>
-  <h1>Painel Admin - Chamados</h1>
-  <a href="logout.html" class="btn-logout">
-    <i class="fa-solid fa-right-from-bracket"></i> Sair
-  </a>
+  <h1>Painel de Chamados</h1>
+  <button id="logout">Sair</button>
 </header>
 
-<main>
-  <section>
-    <h2>Todos os Chamados</h2>
+<div class="cards">
+  <div class="card">
+    <h3 id="totalChamados">0</h3>
+    <p>Total Chamados</p>
+  </div>
 
-    <div style="margin-bottom:15px;">
-      <button class="btn-filtro" data-filtro="todos">Todos</button>
-      <button class="btn-filtro" data-filtro="aberto">Aberto</button>
-      <button class="btn-filtro" data-filtro="em andamento">Em andamento</button>
-      <button class="btn-filtro" data-filtro="resolvido">Resolvido</button>
+  <div class="card aberto">
+    <h3 id="abertos">0</h3>
+    <p>Abertos</p>
+  </div>
 
-      <input type="text" id="busca-chamado"
-        placeholder="Buscar por descrição..."
-        style="margin-left:20px;">
-    </div>
+  <div class="card andamento">
+    <h3 id="andamento">0</h3>
+    <p>Em Andamento</p>
+  </div>
 
-    <table id="tabela-chamados">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Descrição</th>
-          <th>Status</th>
-          <th>Data</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+  <div class="card resolvido">
+    <h3 id="resolvidos">0</h3>
+    <p>Resolvidos</p>
+  </div>
+</div>
 
-  </section>
-</main>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Status</th>
+        <th>Prioridade</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody id="tabelaChamados"></tbody>
+  </table>
+</div>
+
+</div>
 
 <script src="admin-chamados.js"></script>
-
 </body>
 </html>
