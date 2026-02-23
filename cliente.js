@@ -9,18 +9,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk"
   );
 
-  const { data, error } = await client.auth.getUser();
+  // 🔐 Verifica sessão
+  const { data: { session }, error } = await client.auth.getSession();
 
-  if (error || !data.user) {
+  if (error || !session) {
     window.location.href = "login.html";
     return;
   }
 
-  const user = data.user;
+  const user = session.user;
+
+  // 🔎 Verifica se é admin (admin não deve ficar no cliente)
+  const { data: roleData } = await client
+    .from("usuarios")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (roleData?.role === "admin") {
+    window.location.href = "admin-chamados.html";
+    return;
+  }
 
   document.getElementById("nomeCliente").textContent =
     user.email || "Cliente";
 
+  // 🚪 Logout
   document.querySelector(".logout").addEventListener("click", async () => {
     await client.auth.signOut();
     window.location.href = "login.html";
@@ -51,7 +65,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           cliente_id: user.id,
           titulo,
           descricao,
-          prioridade
+          prioridade,
+          status: "aberto"
         }
       ]);
 
@@ -71,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       .from("chamados")
       .select("*")
       .eq("cliente_id", clienteId)
-      .order("criado_em", { ascending: false });
+      .order("created_at", { ascending: false }); // ⚠ padronizado
 
     if (error) {
       console.log(error);
@@ -90,7 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <td>${chamado.id.substring(0,8)}</td>
           <td>${chamado.titulo}</td>
           <td><span class="status ${chamado.status}">${chamado.status}</span></td>
-          <td>${new Date(chamado.criado_em).toLocaleDateString()}</td>
+          <td>${chamado.created_at ? new Date(chamado.created_at).toLocaleDateString() : "-"}</td>
         </tr>
       `;
 
