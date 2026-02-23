@@ -4,87 +4,66 @@ document.addEventListener("DOMContentLoaded", async () => {
     lucide.createIcons();
   }
 
-  // ✅ Usa o client global (NÃO cria outro)
-  const client = window.supabaseClient;
+  const client = window.supabase.createClient(
+    "https://hixywpfmakojtiwhufrd.supabase.co",
+    "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk"
+  );
 
-  // 🔐 Verifica sessão
-  const { data: { session }, error } = await client.auth.getSession();
+  const { data, error } = await client.auth.getUser();
 
-  if (error || !session) {
+  if (error || !data.user) {
     window.location.href = "login.html";
     return;
   }
 
-  const user = session.user;
-
-  // 🔎 Verifica se é admin
-  const { data: roleData } = await client
-    .from("usuarios")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (roleData?.role === "admin") {
-    window.location.href = "admin-chamados.html";
-    return;
-  }
+  const user = data.user;
 
   document.getElementById("nomeCliente").textContent =
     user.email || "Cliente";
 
-  // 🚪 Logout
-  const logoutBtn = document.querySelector(".logout");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
-      await client.auth.signOut();
-      window.location.href = "login.html";
-    });
-  }
+  document.querySelector(".logout").addEventListener("click", async () => {
+    await client.auth.signOut();
+    window.location.href = "login.html";
+  });
 
   const modal = document.getElementById("modalChamado");
   const btnNovo = document.getElementById("btnNovoChamado");
 
-  if (btnNovo) {
-    btnNovo.addEventListener("click", () => {
-      modal.style.display = "flex";
-    });
-  }
+  btnNovo.addEventListener("click", () => {
+    modal.style.display = "flex";
+  });
 
-  const salvarBtn = document.getElementById("salvarChamado");
+  document.getElementById("salvarChamado").addEventListener("click", async () => {
 
-  if (salvarBtn) {
-    salvarBtn.addEventListener("click", async () => {
+    const titulo = document.getElementById("tituloChamado").value;
+    const descricao = document.getElementById("descricaoChamado").value;
+    const prioridade = document.getElementById("prioridadeChamado").value;
 
-      const titulo = document.getElementById("tituloChamado").value;
-      const descricao = document.getElementById("descricaoChamado").value;
-      const prioridade = document.getElementById("prioridadeChamado").value;
+    if (!titulo) {
+      alert("Digite um título");
+      return;
+    }
 
-      if (!titulo) {
-        alert("Digite um título");
-        return;
-      }
+    const { error } = await client
+      .from("chamados")
+      .insert([
+        {
+          cliente_id: user.id,
+          titulo,
+          descricao,
+          prioridade
+        }
+      ]);
 
-      const { error } = await client
-        .from("chamados")
-        .insert([
-          {
-            cliente_id: user.id,
-            titulo,
-            descricao,
-            prioridade
-          }
-        ]);
+    if (error) {
+      alert("Erro ao salvar chamado");
+      console.log(error);
+      return;
+    }
 
-      if (error) {
-        alert("Erro ao salvar chamado");
-        console.log(error);
-        return;
-      }
-
-      modal.style.display = "none";
-      carregarChamados(user.id);
-    });
-  }
+    modal.style.display = "none";
+    carregarChamados(user.id);
+  });
 
   async function carregarChamados(clienteId) {
 
@@ -92,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       .from("chamados")
       .select("*")
       .eq("cliente_id", clienteId)
-      .order("criado_em", { ascending: false }); // ✅ coluna correta
+      .order("criado_em", { ascending: false });
 
     if (error) {
       console.log(error);
@@ -100,8 +79,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const tabela = document.getElementById("tabelaChamados");
-    if (!tabela) return;
-
     tabela.innerHTML = "";
 
     document.getElementById("chamadosCount").textContent = data.length;
@@ -112,8 +89,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         <tr>
           <td>${chamado.id.substring(0,8)}</td>
           <td>${chamado.titulo}</td>
-          <td>${chamado.prioridade || "-"}</td>
-          <td>${chamado.criado_em ? new Date(chamado.criado_em).toLocaleDateString() : "-"}</td>
+          <td><span class="status ${chamado.status}">${chamado.status}</span></td>
+          <td>${new Date(chamado.criado_em).toLocaleDateString()}</td>
         </tr>
       `;
 
