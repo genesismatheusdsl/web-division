@@ -376,3 +376,57 @@ footer {
     font-size: 95%;
   }
 }
+
+/* ================= DEMO ERP ================= */
+
+.demo-erp {
+  padding: 80px 0;
+  background: linear-gradient(180deg,#ffffff,#f4f4f9);
+  text-align: center;
+}
+
+.demo-erp h2 {
+  font-size: 2.2em;
+  margin-bottom: 15px;
+}
+
+.demo-erp p {
+  max-width: 700px;
+  margin: 0 auto 40px;
+  color: #555;
+}
+
+.video-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+  position: relative;
+  transition: .4s;
+}
+
+.video-wrapper:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.25);
+}
+
+.video-wrapper video {
+  width: 100%;
+  display: block;
+}
+
+/* Moldura estilo monitor */
+
+.video-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 8px;
+  background: #ddd;
+  border-radius: 10px;
+}
+
