@@ -1,132 +1,113 @@
-/* Reset básico */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-  background-color: #f4f4f9;
-  color: #333;
-  padding: 20px;
+  display: flex;
+  background: #0f1117;
+  color: #fff;
 }
 
-/* Header */
+.sidebar {
+  width: 220px;
+  background: #141720;
+  height: 100vh;
+  padding: 30px 20px;
+}
+
+.sidebar h2 {
+  margin-bottom: 30px;
+  color: #ff4c60;
+}
+
+.sidebar a {
+  display: block;
+  color: #aaa;
+  padding: 12px 0;
+  text-decoration: none;
+}
+
+.sidebar a.active,
+.sidebar a:hover {
+  color: #fff;
+}
+
+.main {
+  flex: 1;
+  padding: 30px;
+}
+
 header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background-color: #1e1e1e;
-  color: #fff;
-  padding: 15px 30px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
-header h1 {
-  font-size: 1.8em;
-}
-
-header .btn-logout {
-  background-color: #ff4c60;
-  color: #fff;
-  text-decoration: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-header .btn-logout:hover {
-  background-color: #e04356;
-}
-
-/* Seção principal */
-main {
-  background-color: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-/* Filtros e busca */
-.btn-filtro {
-  background-color: #ff4c60;
-  color: #fff;
+header button {
+  background: #ff4c60;
   border: none;
-  padding: 6px 12px;
-  margin-right: 10px;
-  border-radius: 5px;
+  padding: 10px 15px;
+  color: #fff;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s;
 }
 
-.btn-filtro:hover {
-  background-color: #e04356;
+.cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
 }
 
-#busca-chamado {
-  padding: 6px 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-left: 15px;
-  width: 250px;
+.card {
+  background: #1c1f2b;
+  padding: 20px;
+  border-radius: 12px;
+  flex: 1;
+  text-align: center;
 }
 
-/* Tabela de chamados */
+.card h3 {
+  font-size: 28px;
+  margin-bottom: 5px;
+}
+
+.aberto { border-left: 4px solid #f39c12; }
+.andamento { border-left: 4px solid #3498db; }
+.resolvido { border-left: 4px solid #2ecc71; }
+
+.table-container {
+  background: #1c1f2b;
+  padding: 20px;
+  border-radius: 12px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  font-size: 14px;
 }
 
 th, td {
-  border: 1px solid #ddd;
-  padding: 12px 10px;
+  padding: 14px;
   text-align: left;
 }
 
 th {
-  background-color: #ff4c60;
-  color: #fff;
-  font-weight: 600;
+  color: #888;
+  font-weight: 500;
 }
 
-tr:nth-child(even) {
-  background-color: #f9f9f9;
+tr {
+  border-bottom: 1px solid #2a2d3a;
+  cursor: pointer;
 }
 
 tr:hover {
-  background-color: #f1f1f1;
+  background: #242836;
 }
 
-/* Status */
-.status-Aberto {
-  color: #f39c12;
-  font-weight: bold;
-}
-
-.status-Emandamento, .status-Em {
-  color: #3498db;
-  font-weight: bold;
-}
-
-.status-Resolvido {
-  color: #2ecc71;
-  font-weight: bold;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  #busca-chamado {
-    width: 100%;
-    margin-top: 10px;
-    margin-left: 0;
-  }
-
-  table, th, td {
-    font-size: 12px;
-  }
-}
+.status-aberto { color: #f39c12; }
+.status-em { color: #3498db; }
+.status-resolvido { color: #2ecc71; }
