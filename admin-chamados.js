@@ -1,3 +1,16 @@
+// ================================
+// WEB DIVISION - ADMIN CHAMADOS
+// ================================
+
+// 🔥 CONFIGURAÇÃO SUPABASE
+const SUPABASE_URL = "https://hixywpfmakojtiwhufrd.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
 document.addEventListener("DOMContentLoaded", async () => {
 
   console.log("Iniciando sistema admin...");
@@ -5,28 +18,27 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tabela = document.getElementById("tabelaChamados");
   if (!tabela) return;
 
-  // 🔐 Aguarda sessão corretamente
-  const {
-    data: { session },
-    error
-  } = await window.supabaseClient.auth.getSession();
+  // 🔐 Verifica sessão
+  const { data: { session }, error } =
+    await supabaseClient.auth.getSession();
 
   console.log("Sessão:", session);
 
   if (!session) {
     console.log("Sem sessão, redirecionando...");
-    window.location.href = "index.html";
+    window.location.href = "login.html";
     return;
   }
 
   const user = session.user;
 
   // 🔎 Verifica se é admin
-  const { data: roleData, error: roleError } = await window.supabaseClient
-    .from("usuarios")
-    .select("role")
-    .eq("id", user.id)
-    .single();
+  const { data: roleData, error: roleError } =
+    await supabaseClient
+      .from("usuarios")
+      .select("role")
+      .eq("id", user.id)
+      .single();
 
   console.log("Role:", roleData);
 
@@ -41,17 +53,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   carregarChamados(tabela);
 
   // 🚪 Logout
-  document.getElementById("logout").addEventListener("click", async () => {
-    await window.supabaseClient.auth.signOut();
-    window.location.href = "index.html";
-  });
+  const logoutBtn = document.getElementById("logout");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      await supabaseClient.auth.signOut();
+      window.location.href = "index.html";
+    });
+  }
 
 });
 
+// ================================
+// CARREGAR CHAMADOS
+// ================================
 
 async function carregarChamados(tabela) {
 
-  const { data, error } = await window.supabaseClient
+  const { data, error } = await supabaseClient
     .from("chamados")
     .select("*")
     .order("created_at", { ascending: false });
