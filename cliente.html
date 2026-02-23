@@ -78,13 +78,7 @@
 
 </div>
 
-<!-- Supabase CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<!-- Script oficial do Lucide (necessário para os ícones funcionarem) -->
-<script src="https://unpkg.com/lucide@latest"></script>
-
-<script src="cliente.js"></script>
+<!-- Modal Novo Chamado -->
 <div id="modalChamado" class="modal">
   <div class="modal-content">
     <h2>Novo Chamado</h2>
@@ -101,5 +95,23 @@
     <button id="salvarChamado" class="btn-primary">Salvar</button>
   </div>
 </div>
+
+<!-- ================= SCRIPTS NA ORDEM CORRETA ================= -->
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Inicialização global do Supabase -->
+<script src="supabase.js"></script>
+
+<!-- Script da página -->
+<script src="cliente.js"></script>
+
+<!-- Lucide -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+
 </body>
 </html>
