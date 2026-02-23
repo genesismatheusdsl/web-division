@@ -5,6 +5,35 @@ const supabase = window.supabase.createClient(
 
 const tabela = document.getElementById("tabelaChamados");
 
+async function iniciar() {
+
+  // 1️⃣ Verifica login
+  const { data: userData, error } = await supabase.auth.getUser();
+
+  if (error || !userData.user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const user = userData.user;
+
+  // 2️⃣ Verifica se é admin
+  const { data: roleData, error: roleError } = await supabase
+    .from("usuarios")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (roleError || !roleData || roleData.role !== "admin") {
+    alert("Acesso restrito ao administrador.");
+    window.location.href = "cliente.html";
+    return;
+  }
+
+  // 3️⃣ Se passou aqui, é admin
+  carregarChamados();
+}
+
 async function carregarChamados() {
 
   const { data, error } = await supabase
@@ -13,11 +42,9 @@ async function carregarChamados() {
     .order("criado_em", { ascending: false });
 
   if (error) {
-    console.log("Erro:", error);
+    console.log(error);
     return;
   }
-
-  console.log("Chamados encontrados:", data);
 
   tabela.innerHTML = "";
 
@@ -37,9 +64,7 @@ async function carregarChamados() {
     tr.innerHTML = `
       <td>${chamado.id.substring(0,8)}</td>
       <td>${chamado.titulo}</td>
-      <td class="status-${chamado.status.replace(" ","")}">
-        ${chamado.status}
-      </td>
+      <td>${chamado.status}</td>
       <td>${chamado.prioridade || "-"}</td>
       <td>${new Date(chamado.criado_em).toLocaleDateString()}</td>
     `;
@@ -53,4 +78,4 @@ async function carregarChamados() {
   document.getElementById("resolvidos").textContent = resolvidos;
 }
 
-carregarChamados();
+iniciar();
