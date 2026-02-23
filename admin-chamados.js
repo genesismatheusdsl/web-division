@@ -1,23 +1,26 @@
-// ===== CRIAR CLIENT SUPABASE =====
-const supabaseClient = window.supabase.createClient(
-  "https://webdivision23-boop.supabase.co",
-  "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk"
-);
+// ===== CONFIG SUPABASE =====
+const SUPABASE_URL = "https://webdivision23-boop.supabase.co";
+const SUPABASE_KEY = "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk";
+
+const { createClient } = supabase;
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const tabela = document.getElementById("tabelaChamados");
 
 // ===== INICIAR SISTEMA =====
-async function iniciar() {
+document.addEventListener("DOMContentLoaded", async () => {
 
-  const { data: userData, error } = await supabaseClient.auth.getUser();
+  // 🔐 Verifica sessão corretamente
+  const { data: { session } } = await supabaseClient.auth.getSession();
 
-  if (error || !userData || !userData.user) {
-    window.location.href = "login.html";
+  if (!session) {
+    window.location.href = "cliente.html";
     return;
   }
 
-  const user = userData.user;
+  const user = session.user;
 
+  // 🔎 Verifica se é admin
   const { data: roleData, error: roleError } = await supabaseClient
     .from("usuarios")
     .select("role")
@@ -25,13 +28,22 @@ async function iniciar() {
     .single();
 
   if (roleError || !roleData || roleData.role !== "admin") {
-    alert("Acesso restrito ao administrador.");
     window.location.href = "cliente.html";
     return;
   }
 
+  console.log("Admin autenticado ✅");
+
   carregarChamados();
-}
+
+  // 🚪 Logout
+  document.getElementById("logout").addEventListener("click", async () => {
+    await supabaseClient.auth.signOut();
+    window.location.href = "index.html";
+  });
+
+});
+
 
 // ===== CARREGAR CHAMADOS =====
 async function carregarChamados() {
@@ -42,7 +54,7 @@ async function carregarChamados() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.log("Erro ao buscar chamados:", error);
+    console.error("Erro ao buscar chamados:", error);
     return;
   }
 
@@ -63,7 +75,7 @@ async function carregarChamados() {
 
     tr.innerHTML = `
       <td>${chamado.id.substring(0,8)}</td>
-      <td>${chamado.descricao}</td>
+      <td>${chamado.descricao || "-"}</td>
       <td>${chamado.status}</td>
       <td>-</td>
       <td>${new Date(chamado.created_at).toLocaleDateString()}</td>
@@ -77,5 +89,3 @@ async function carregarChamados() {
   document.getElementById("andamento").textContent = andamento;
   document.getElementById("resolvidos").textContent = resolvidos;
 }
-
-iniciar();
