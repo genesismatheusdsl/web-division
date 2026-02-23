@@ -3,7 +3,7 @@
 // =====================================
 
 // ⚠️ NÃO declarar essas variáveis em outros arquivos
-const SUPABASE_URL = "https://webdivision23-boop.supabase.co";
+const SUPABASE_URL = "https://hixywpfmakojtiwhufrd.supabase.co";
 const SUPABASE_KEY = "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk";
 
 // Garante que o Supabase já foi carregado
