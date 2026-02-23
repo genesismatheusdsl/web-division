@@ -1,10 +1,14 @@
-const SUPABASE_URL = "https://hixywpfmakojtiwhufrd.supabase.co";
-const SUPABASE_KEY = "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk";
+// ===== EVITA DECLARAÇÃO DUPLICADA =====
+if (!window._webdivisionSupabase) {
 
-const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+  window._webdivisionSupabase = window.supabase.createClient(
+    "https://hixywpfmakojtiwhufrd.supabase.co",
+    "sb_publishable_BPWbQWIx8yXMhgoCWjyxfw_RB7P5dYk"
+  );
+
+}
+
+const supabase = window._webdivisionSupabase;
 
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -24,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("nomeCliente").textContent =
     user.email || "Cliente";
 
-  // LOGOUT
+  // ===== LOGOUT =====
   document.querySelector(".logout").addEventListener("click", async () => {
     await supabase.auth.signOut();
     window.location.href = "login.html";
@@ -38,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     modal.style.display = "flex";
   });
 
-  // SALVAR CHAMADO
+  // ===== SALVAR CHAMADO =====
   document.getElementById("salvarChamado").addEventListener("click", async () => {
 
     const titulo = document.getElementById("tituloChamado").value;
@@ -71,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     carregarChamados(user.id);
   });
 
-  // CARREGAR CHAMADOS
+  // ===== CARREGAR CHAMADOS =====
   async function carregarChamados(clienteId) {
 
     const { data, error } = await supabase
