@@ -65,7 +65,46 @@
 
   </div>
 
-  <script src="admin-chamados.js"></script>
+  <script>
+    const SUPABASE_URL = "https://hixywpfmakojtiwhufrd.supabase.co"
+    const SUPABASE_KEY = "COLE_AQUI_SUA_PUBLISHABLE_KEY"
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
+    document.addEventListener('DOMContentLoaded', async () => {
+
+      // 🔐 Verifica sessão
+      const { data: { session } } = await supabaseClient.auth.getSession()
+
+      if (!session) {
+        window.location.href = "/cliente.html"
+        return
+      }
+
+      const user = session.user
+
+      // 🔎 Verifica se é admin
+      const { data, error } = await supabaseClient
+        .from('usuarios')
+        .select('role')
+        .eq('id', user.id)
+        .single()
+
+      if (error || !data || data.role !== 'admin') {
+        window.location.href = "/cliente.html"
+        return
+      }
+
+      console.log("Admin autenticado ✅")
+
+      // 🚪 Logout
+      document.getElementById("logout").addEventListener("click", async () => {
+        await supabaseClient.auth.signOut()
+        window.location.href = "/index.html"
+      })
+
+    })
+  </script>
 
 </body>
 </html>
