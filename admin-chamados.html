@@ -4,68 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Chamados</title>
+
   <link rel="stylesheet" href="admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      font-size: 14px;
-      text-align: left;
-    }
-    th {
-      background-color: #ff4c60;
-      color: #fff;
-    }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    .status-Aberto { color: #f39c12; font-weight: bold; }
-    .status-Em { color: #3498db; font-weight: bold; }
-    .status-Resolvido { color: #2ecc71; font-weight: bold; }
-  </style>
+
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
-  <header>
-    <h1>Administração - Chamados</h1>
-    <a href="logout.html" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
-  </header>
 
-  <main>
-    <section>
-      <h2>Todos os Chamados</h2>
-      <div>
-        <button class="btn-filtro" data-filtro="todos">Todos</button>
-        <button class="btn-filtro" data-filtro="Aberto">Aberto</button>
-        <button class="btn-filtro" data-filtro="Em andamento">Em andamento</button>
-        <button class="btn-filtro" data-filtro="Resolvido">Resolvido</button>
-        <input type="text" id="busca-chamado" placeholder="Buscar por número, cliente ou empresa...">
-      </div>
+<header>
+  <h1>Painel Admin - Chamados</h1>
+  <a href="logout.html" class="btn-logout">
+    <i class="fa-solid fa-right-from-bracket"></i> Sair
+  </a>
+</header>
 
-      <table id="tabela-chamados">
-        <thead>
-          <tr>
-            <th>Nº Chamado</th>
-            <th>Cliente</th>
-            <th>Empresa</th>
-            <th>Prioridade</th>
-            <th>Status</th>
-            <th>Descrição</th>
-            <th>Data Abertura</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Chamados via JS -->
-        </tbody>
-      </table>
-    </section>
-  </main>
+<main>
+  <section>
+    <h2>Todos os Chamados</h2>
 
-  <script src="admin-chamados.js"></script>
+    <div style="margin-bottom:15px;">
+      <button class="btn-filtro" data-filtro="todos">Todos</button>
+      <button class="btn-filtro" data-filtro="aberto">Aberto</button>
+      <button class="btn-filtro" data-filtro="em andamento">Em andamento</button>
+      <button class="btn-filtro" data-filtro="resolvido">Resolvido</button>
+
+      <input type="text" id="busca-chamado"
+        placeholder="Buscar por descrição..."
+        style="margin-left:20px;">
+    </div>
+
+    <table id="tabela-chamados">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Descrição</th>
+          <th>Status</th>
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+  </section>
+</main>
+
+<script src="admin-chamados.js"></script>
+
 </body>
 </html>
